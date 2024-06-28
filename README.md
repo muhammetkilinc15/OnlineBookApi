@@ -29,7 +29,7 @@
 * Kurulum işlemleri bittikten sonra django projemizi oluşturuyoruz
 
 ```bash
- django-admin startproject newsBulten
+ django-admin startproject onlineBookApi
 ```
 
 * Rest Framework ve extension yüklemiştik. Onları settings.py içerisine ekliyoruz
