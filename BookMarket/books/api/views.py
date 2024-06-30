@@ -7,6 +7,10 @@ from rest_framework.generics import get_object_or_404
 from books.api.serializers import BookSerializer,CommentSerializer,AuthorSerializer
 from books.models import Book,Author,Comment
 
+from rest_framework import permissions # izinler için gerekli
+
+
+from books.api.permissions import IsAdminUserOrReadOnly
 
 
 #! Concreta View İle 
@@ -15,27 +19,28 @@ from books.models import Book,Author,Comment
 class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer # serializer_class özniteliğini 
+    permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
 
 #? Kitap detaylarına gitme
 class BookDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer # serializer_class özniteliğini 
-    
+    permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
 #? Yazar olusturma ve listeleme
 class AuthorListCreateAPIView(generics.ListCreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-
+    permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
 #? Yazar detaylarına gitme
 class AuthorDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer # serializer_class özniteliğini 
-    
+    permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
 #? Yorum olusturma 
 class CommentCreateAPIView(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
+    permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
     def perform_create(self, serializer):
         # 'book_pk' URL parametresini al
         book_pk = self.kwargs.get('book_pk')
@@ -53,7 +58,7 @@ class CommentCreateAPIView(generics.CreateAPIView):
 class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    
+    permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
     
     
     
