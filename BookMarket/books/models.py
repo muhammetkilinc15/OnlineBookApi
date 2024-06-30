@@ -30,8 +30,6 @@ class Book(models.Model):
         return f"{self.name} -  {self.author}"
     
 
-
-
 class Comment(models.Model):
     book = models.ForeignKey(Book,on_delete=models.CASCADE,related_name="comments")
     commenter = models.CharField(max_length=255)
