@@ -8,5 +8,6 @@ urlpatterns = [
     path('author/<int:pk>',api_views.AuthorDetailAPIView.as_view(),name="author-detail"),
     
      path('books/<int:book_pk>/makecomment/', api_views.CommentCreateAPIView.as_view(), name='make-comment'),
+     
      path('comments/<int:pk>', api_views.CommentDetailAPIView.as_view(), name='comments'),
 ]
