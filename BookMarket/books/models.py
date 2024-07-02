@@ -1,8 +1,9 @@
 from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
 from datetime import date, datetime  # datetime modülünü import ettik
-# Create your models here.
+from django.contrib.auth.models import User
 
+# Create your models here.
 class Author(models.Model):
     name = models.CharField(max_length=55)
     surname = models.CharField(max_length=55)
@@ -32,7 +33,7 @@ class Book(models.Model):
 
 class Comment(models.Model):
     book = models.ForeignKey(Book,on_delete=models.CASCADE,related_name="comments")
-    commenter = models.CharField(max_length=255)
+    commenter = models.ForeignKey(User,on_delete=models.CASCADE,related_name='usercomments',null=True)
     comment = models.TextField(blank=True,null=True,max_length=3000)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
