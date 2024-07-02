@@ -10,8 +10,10 @@ from books.models import Book,Author,Comment
 from rest_framework import permissions # izinler için gerekli
 
 
-from books.api.permissions import IsAdminUserOrReadOnly
+from books.api.permissions import IsAdminUserOrReadOnly,IsCommenterOrReadOnly
 
+
+from rest_framework.exceptions import ValidationError
 
 #! Concreta View İle 
 
@@ -50,15 +52,20 @@ class CommentCreateAPIView(generics.CreateAPIView):
         
         # 'book_pk' ile kitap objesini getir, eğer yoksa 404 hatası döndür
         book = get_object_or_404(Book, pk=book_pk)
+        user = self.request.user
+        commnets = Comment.objects.filter(book=book,commenter=user)
+        if commnets.exists():
+            raise ValidationError('Bir kullanıcı bir kitaba sadece 1 kez yorum yapabilir')
+       
         
-        # Yorumun kaydedilmesi sırasında kitap objesini ilişkilendir
-        serializer.save(book=book)
+        
+        serializer.save(book=book,commenter=user)
 
 #? Yorum güncelleme silme
 class CommentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
+    permission_classes = [IsCommenterOrReadOnly] # admin post yapabilir diğerleri okuma
     
     
     
