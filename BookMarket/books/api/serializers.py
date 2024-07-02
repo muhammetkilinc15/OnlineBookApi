@@ -3,15 +3,13 @@ from books.models import Book,Comment,Author
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    commenter = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Comment
         #fields = '__all__'
         exclude = ('book',) # kitap dısındakiler gelecek
  
  
-
- 
-
      
 # read-only diyerek bir kitap girilecen de yorum girilmesini beklemicek   
 class BookSerializer(serializers.ModelSerializer):
