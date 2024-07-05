@@ -15,13 +15,18 @@ from books.api.permissions import IsAdminUserOrReadOnly,IsCommenterOrReadOnly
 
 from rest_framework.exceptions import ValidationError
 
+
+from books.api.pagination import SmallPagination,LargePagination
+
+
 #! Concreta View İle 
 
 #? Kitap Listeleme ve Olusturma 
 class BookListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Book.objects.all()
+    queryset = Book.objects.all().order_by('-id')
     serializer_class = BookSerializer # serializer_class özniteliğini 
     permission_classes = [IsAdminUserOrReadOnly] # admin post yapabilir diğerleri okuma
+    pagination_class=LargePagination
 
 #? Kitap detaylarına gitme
 class BookDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
